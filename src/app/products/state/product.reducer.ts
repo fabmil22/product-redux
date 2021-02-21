@@ -2,7 +2,7 @@ import { createReducer, on, createAction, createFeatureSelector, createSelector 
 import { Product } from '../product';
 import * as AppState from '../../state/app.state';
 import * as actions from './product.actions'
-import { toggleshowCodeProduct } from './product.actions';
+
 
 
 export interface State extends AppState.State{
@@ -22,12 +22,48 @@ const initialState: ProductState = {
 
 export const productReducer = createReducer<ProductState >(
   initialState ,
-  on( toggleshowCodeProduct , (state): ProductState => {
+  on( actions.toggleshowCodeProduct , (state): ProductState => {
     return {
       ...state,
       showProductCode: !state.showProductCode
     };
-  })
+  }),
+  on( actions.setCurrentProduct, (state , action): ProductState => {
+    return {
+      ...state,
+      currentProduct: action.product
+    };
+  }),
+
+  on( actions.clearCurrentProduct, (state): ProductState => {
+    return {
+      ...state,
+      currentProduct: null
+    };
+  }),
+
+  on( actions.clearCurrentProductById, (state , action): ProductState => {
+    return {
+      ...state,
+      currentProduct: null
+    };
+  }),
+
+  on( actions.initCurrentProduct , (state): ProductState => {
+    return {
+      ...state,
+      currentProduct : {
+            id: 0,
+            productName: '',
+            productCode: 'new',
+            description: '',
+            starRating: 0,
+                      }
+    };
+  }),
+
+
+
 );
 
 /*
